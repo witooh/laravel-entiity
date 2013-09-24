@@ -1,11 +1,11 @@
 <?php
-namespace Witooh\Entities;
+namespace Witooh\Entity;
 
 interface IAggregateFactory {
     /**
      * @param string $name
      * @param null|array $attr
-     * @return \Witooh\Entities\AbstractEntitiy
+     * @return \Witooh\Entity\AbstractEntitiy
      */
     public function create($name, $attr=null);
 }
