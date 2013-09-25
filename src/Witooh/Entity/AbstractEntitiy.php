@@ -32,6 +32,16 @@ abstract class AbstractEntitiy implements ArrayableInterface
     }
 
     /**
+     * @param string $prefix
+     * @param string $propertyName
+     * @return string
+     */
+    private function toMethodName($prefix, $propertyName)
+    {
+        return $prefix . ucfirst($propertyName);
+    }
+
+    /**
      * @param string $name
      * @return mixed
      * @throws \BadMethodCallException
@@ -68,7 +78,7 @@ abstract class AbstractEntitiy implements ArrayableInterface
 
         foreach ($attributes as $key => $value) {
             if (array_key_exists($key, $properties)) {
-                $method = "set" . ucfirst($key);
+                $method = $this->toMethodName('set', $key);
                 $this->$method($value);
             }
         }
@@ -81,10 +91,18 @@ abstract class AbstractEntitiy implements ArrayableInterface
      */
     public function toArray()
     {
-        return array_map(function ($value) {
-            return $value instanceof ArrayableInterface ? $value->toArray() : $value;
+        $result = array();
+        $attrs  = get_object_vars($this);
+        foreach ($attrs as $key => $value) {
+            if ($value instanceof ArrayableInterface) {
+                $result[$key] = $value->toArray();
+            } else {
+                $method       = $this->toMethodName('get', $key);
+                $result[$key] = $this->$method();
+            }
+        }
 
-        }, get_object_vars($this));
+        return $result;
     }
 
     /**

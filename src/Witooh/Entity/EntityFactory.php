@@ -6,14 +6,30 @@ class EntityFactory implements IEntityFactory {
     /**
      * @var string
      */
-    protected $namespace = '';
+    protected $namespace;
 
     /**
      * @param string $namespace
      */
-    public function __construct($namespace)
+    public function __construct($namespace="")
     {
         $this->namespace = $namespace;
+    }
+
+    /**
+     * @param string $namespace
+     */
+    public function setNamespace($namespace)
+    {
+        $this->namespace = $namespace;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNamespace()
+    {
+        return $this->namespace;
     }
 
     /**

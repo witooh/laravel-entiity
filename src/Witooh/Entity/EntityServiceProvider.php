@@ -18,7 +18,13 @@ class EntityServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+        $this->app->singleton('Witooh\Entity\IAggregateFactory', function($app){
+            return new AggregateFactory();
+        });
+
+        $this->app->singleton('Witooh\Entity\IEntityFactory', function($app){
+            return new EntityFactory();
+        });
 	}
 
 	/**
