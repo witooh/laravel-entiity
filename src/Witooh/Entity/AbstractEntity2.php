@@ -3,7 +3,7 @@ namespace Witooh\Entity;
 
 use Illuminate\Support\Contracts\ArrayableInterface;
 
-abstract class AbstractEntitiy implements ArrayableInterface
+abstract class AbstractEntity2 implements ArrayableInterface
 {
     /**
      * @param string $name
@@ -15,9 +15,9 @@ abstract class AbstractEntitiy implements ArrayableInterface
     {
         $type = str_split($name, 3)[0];
         if ($type == 'get') {
-            return $this->getMethod($this->toCamelCase("get", $name));
+            return $this->getMethod($this->toSnakeCase("get", $name));
         } elseif ($type == 'set') {
-            $this->setMethod($this->toCamelCase("set", $name), $arguments[0]);
+            $this->setMethod($this->toSnakeCase("set", $name), $arguments[0]);
         }
     }
 
@@ -26,9 +26,9 @@ abstract class AbstractEntitiy implements ArrayableInterface
      * @param string $methodName
      * @return string
      */
-    private function toCamelCase($cut, $methodName)
+    private function toSnakeCase($cut, $methodName)
     {
-        return camel_case(str_replace($cut, "", $methodName));
+        return snake_case(str_replace($cut, "", $methodName));
     }
 
     /**
@@ -38,7 +38,7 @@ abstract class AbstractEntitiy implements ArrayableInterface
      */
     private function toMethodName($prefix, $propertyName)
     {
-        return $prefix . ucfirst($propertyName);
+        return $prefix . ucfirst(camel_case($propertyName));
     }
 
     /**
@@ -51,7 +51,7 @@ abstract class AbstractEntitiy implements ArrayableInterface
         if (property_exists($this, $name)) {
             return $this->$name;
         } else {
-            throw new \BadMethodCallException("This method doesn't exist");
+            throw new \BadMethodCallException($name ." method doesn't exist");
         }
     }
 
@@ -65,7 +65,7 @@ abstract class AbstractEntitiy implements ArrayableInterface
         if (property_exists($this, $name)) {
             $this->$name = $value;
         } else {
-            throw new \BadMethodCallException("This method doesn't exist");
+            throw new \BadMethodCallException($name ." method doesn't exist");
         }
     }
 

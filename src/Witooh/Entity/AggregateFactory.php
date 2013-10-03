@@ -35,7 +35,7 @@ class AggregateFactory implements IAggregateFactory {
     /**
      * @param string $name
      * @param null|array $attr
-     * @return \Witooh\Entity\AbstractEntitiy
+     * @return \Witooh\Entity\AbstractEntity
      */
     public function create($name, $attr=null)
     {
